@@ -68,7 +68,8 @@
                 $json = json_encode($q_result);
 		$someArr =  json_decode($json, true);
 				
-		//print_r($someArr);
+        //print_r($someArr);
+        
                 
 
         echo "<table border='1'>";
