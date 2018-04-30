@@ -21,6 +21,9 @@
     } catch(PDOException $z){
         die($z->getMessage());
     }
+    
+    //store a uuid in session
+    
 
 ?>
 
@@ -94,6 +97,7 @@
 		 }
 		 echo "</table>";
 		?>
+		<input type="hidden" id="action_random" name="action_random" value="true" />
         <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
 </form>
 <!-- HTML COMMENT -->
