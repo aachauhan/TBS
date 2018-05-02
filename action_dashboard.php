@@ -68,8 +68,7 @@
                 $json = json_encode($q_result);
 		$someArr =  json_decode($json, true);
 				
-        //print_r($someArr);
-        
+		//print_r($someArr);
                 
 
         echo "<table border='1'>";
@@ -144,7 +143,7 @@
 			print_r($_POST['checked']);
 		}
 		// $counter = 0;
-        // foreach($checkbox as $node){
+        	// foreach($checkbox as $node){
 		// 	 echo $counter;
 		// 	 echo $checkbox->nodeValue, PHP_EOL;
 		// 	 $counter++;

@@ -2,7 +2,7 @@
 
     require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/header.php';
     
-    //local host - info
+    //database info
     $servername = "localhost";
     $username = "amasyn_local";
     $password = "Cogimetrics100";
@@ -14,7 +14,6 @@
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
 
-    
 ?>
 
 <title>Add Action Dashboard</title>
@@ -82,11 +81,14 @@
                     $val_desc = implode(", ", $ad_value);
                     //echo $val_desc;
 
+                    //now we have one base case failing
                     //Add the logic that accomodates COMMENT & STATUS section
-                    // --
-                    
+                    //What happens when action desc changes - what other things should change
+                    //one way to work around this is to use the id's to check instead of action desc to check the change
+
+                    //one way to do this is by making a function that checks if the entry is present in the database already ~ if not then add else throw exception
                     // now have to integrate the date in the query too - Adding the date will give us more control over the uniqueness condition
-                    $sql_unique = "SELECT * FROM client_actions WHERE client_name = '$acc_name' AND action_id IN ({$val_desc}) AND start_date = '$date'";
+                $sql_unique = "SELECT * FROM client_actions WHERE client_name = '$acc_name' AND action_id IN ({$val_desc}) AND start_date = '$date'";
                     if(checkIsDuplicated($sql_unique)){
                         echo "DO IT";
                         for($count = 0; $count < count(json_decode($json)) ; $count++){
@@ -115,6 +117,13 @@
                         die($z->getMessage());
                     
                     }
+                    
+                    //to persist dropdown here is resource
+                    //https://stackoverflow.com/questions/23321594/update-database-after-select-option-change
+                    //send id of action and value using ajax, onchange to a php function that looks in client actions table and updates the value of the status
+                    
+                    
+                    //table rendering using the code on the file below
                     require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/client-action-render.php';
   	}
 ?>

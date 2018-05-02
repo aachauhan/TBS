@@ -1,3 +1,7 @@
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
 <?php
     //database info
     $servername = "localhost";
@@ -27,6 +31,7 @@
                     
                     echo "<table border='1'>";
                     echo "<tr>
+                        <th>Id</th>
                         <th>Client Name</th>
                         <th>Account Advocate</th>
                         <th>Sales Associate</th>
@@ -40,6 +45,7 @@
                         </tr>";
                     for($count = 0; $count < count(json_decode($clientaction_json)) ; $count++){
                         echo "<tr>";
+                        echo "<td name='action_id' id='action_id'>" .$client_json_array[$count]["id"] . "</td>";
                         echo "<td>" .$client_json_array[$count]["client_name"] . "</td>";
                         echo "<td>". $client_json_array[$count]['acc_advocate']."</td>";
                         echo "<td>" .$client_json_array[$count]["sales_assoc"] . "</td>";
@@ -48,8 +54,8 @@
                         echo "<td>". $client_json_array[$count]["action_desc"] ."</td>";
                         echo "<td>". $client_json_array[$count]["action_group"] ."</td>";
                         echo "<td>". $client_json_array[$count]["role"] ."</td>";
-                        echo "<td>". $client_json_array[$count]["status"] ."</td>";
-                        echo "<td>". $client_json_array[$count]["comment"] ."</td>";
+                        echo "<td><select name='status_val' id='status_val' onchange='render_dropdown()'>". "<option value='working'>" . $client_json_array[$count]["status"] . "</option>" . "<option value='completed'>completed</option>" . "</select></td>";
+                        echo "<td><input type='text' name='comment' /></td>";
                         echo "</tr>";
                     }
                     echo "</table>";
@@ -59,3 +65,25 @@
         die($z->getMessage());
     }
 ?>
+<script>
+    function ajx_request(){
+        $.ajax({
+            type: 'POST',
+            url: 'client_status_update.php',
+            data: {data1: $('#action_id').val(), data2: $('status_val').val()},
+            dataType: 'text',
+            success: function(data)
+            {
+                console.log('added');
+                console.log(data);
+            }
+        });
+    }
+
+    function render_dropdown(){
+        console.log("Changed");
+        ajx_request();
+        console.log($('#action_id').val());
+        console.log($('#status_val').val());
+    }
+</script>
