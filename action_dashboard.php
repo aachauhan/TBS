@@ -36,6 +36,7 @@
 		<a href="http://marvelousglass.com/actions/inc/action-dashboard.php">Main Dashboard</a>
 		<a href="http://marvelousglass.com/actions/inc/add-client.php/">Add Client</a>
 		<a href="http://marvelousglass.com/actions/inc/add-action.php">Add Action</a>
+		<a href="http://marvelousglass.com/actions/inc/client-action-render.php">Dashboard 2.0</a>
 		        <hr />
 		        <h2>Action Dashboard</h2>
             <form id="form-create_client" class="form_insert"  method="post" action="/actions/inc/filtered-action-dashboard.php">

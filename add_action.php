@@ -81,10 +81,7 @@
                     $val_desc = implode(", ", $ad_value);
                     //echo $val_desc;
 
-                    //now we have one base case failing
-                    //Add the logic that accomodates COMMENT & STATUS section
-                    //What happens when action desc changes - what other things should change
-                    //one way to work around this is to use the id's to check instead of action desc to check the change
+                  
 
                     //one way to do this is by making a function that checks if the entry is present in the database already ~ if not then add else throw exception
                     // now have to integrate the date in the query too - Adding the date will give us more control over the uniqueness condition
@@ -100,10 +97,10 @@
                             $action_group_value = $someArr[$count]["action_group"];
                             $action_role_value = $someArr[$count]["action_role"];
                             $action_id_value = $someArr[$count]["id"];
-                            $actn_status = "working";   //Have to integrate the action status as checkbox
-                            $actn_comment = "COMMENT";  //Have to integrate the action comment as input box
-                            $sql_data = "INSERT INTO client_actions (acc_advocate, client_name, sales_assoc, start_date, program_name, action_desc, action_group, role, action_id, status, comment)
-                            VALUES ('$acc_advocate','$acc_name','$sales_assoc','$date','$program_name_value','$action_desc_value','$action_group_value', '$action_role_value', '$action_id_value', '$actn_status', '$actn_comment')";
+                            $actn_status = "";   //Have to integrate the action status as checkbox
+                            $actn_comment = "";  //Have to integrate the action comment as input box
+                            $sql_data = "INSERT INTO client_actions (acc_advocate, client_name, sales_assoc, start_date, program_name, action_desc, action_group, role, action_id, comment)
+                            VALUES ('$acc_advocate','$acc_name','$sales_assoc','$date','$program_name_value','$action_desc_value','$action_group_value', '$action_role_value', '$action_id_value', '$actn_comment')";
                             $stmt_1 = $database_connection->prepare($sql_data);
                             $stmt_1->execute();
                         }
@@ -131,6 +128,7 @@
 		<a href="http://marvelousglass.com/actions/inc/action-dashboard.php">Main Dashboard</a>
 		<a href="http://marvelousglass.com/actions/inc/add-client.php/">Add Client</a>
 		<a href="http://marvelousglass.com/actions/inc/add-action.php">Add Action</a>
+		<a href="http://marvelousglass.com/actions/inc/client-action-render.php">Dashboard 2.0</a>
 
 		</body>
 </html>
