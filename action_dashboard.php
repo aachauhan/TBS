@@ -1,8 +1,10 @@
 <?php
 
+    //brings the HTML structure of the page
     require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/header.php';
     
     //database info
+    //can be modularized
     $servername = "localhost";
     $username = "amasyn_local";
     $password = "Cogimetrics100";
@@ -33,32 +35,36 @@
   crossorigin="anonymous"></script>
 </head>
         <body>
+        <!-- Menu Section -->
 		<a href="http://marvelousglass.com/actions/inc/action-dashboard.php">Main Dashboard</a>
 		<a href="http://marvelousglass.com/actions/inc/add-client.php/">Add Client</a>
 		<a href="http://marvelousglass.com/actions/inc/add-action.php">Add Action</a>
 		<a href="http://marvelousglass.com/actions/inc/client-action-render.php">Dashboard 2.0</a>
-		        <hr />
-		        <h2>Action Dashboard</h2>
-            <form id="form-create_client" class="form_insert"  method="post" action="/actions/inc/filtered-action-dashboard.php">
-            <label class="description" for="client_name">Enter Client Name </label>
-            <select name="account_name" id="client_dd" onchange="render_checkboxes()">
+        <hr />
+
+        <h2>Action Dashboard</h2>
+        <p>On this page, map the clients with actions</p>
+        
+        <form id="form-create_client" class="form_insert"  method="post" action="/actions/inc/filtered-action-dashboard.php">
+        <label class="description" for="client_name">Enter Client Name : </label>
+        <!--use of JS below to activate checkboxes-->
+        <select name="account_name" id="client_dd" onchange="render_checkboxes()">
             <?php
-            //empty array
+                //empty array
                 $json_trap = []; 
                 $sql = mysqli_query($con, "SELECT * FROM clients");
                 echo "<option value='default'>--</option>";
                 while ($row = $sql->fetch_assoc()){
                     echo "<option name=\"client_name\" value=\"". $row['account_name'] . "\">" . $row['account_name'] . "</option>";
                     $key = $row['account_name'];
-		$json_trap[$key] = $row['saved_actions'];
+                    $json_trap[$key] = $row['saved_actions'];
                 }
-                // another comment - JSON trap is storing the data 
+                // - JSON trap is storing the data, its storing the saved actions
                 print_r($json_trap);
                 $converted_json = json_encode($json_trap);
-                print_r($converted_json);
-                
+                print_r($converted_json);    
             ?>
-    </select>
+        </select>
     <?php
 		// bring actions from database
         $query_1 = $database_connection->prepare("SELECT * FROM actions");
@@ -69,9 +75,6 @@
                 $json = json_encode($q_result);
 		$someArr =  json_decode($json, true);
 				
-		//print_r($someArr);
-                
-
         echo "<table border='1'>";
         echo "<tr>
                 <th>Action</th>
@@ -99,7 +102,6 @@
 
         ?>
         <input id="saveForm" class="button_text" type="submit" name="submit_action" value="Submit" />
-        <!--<input id="updateForm" class="update_button" type="submit" name="save" value="Save" />-->
 </form>
 <script>
     $("tr").on("click", "input", function() {
@@ -143,16 +145,8 @@
 		if(isset($_POST['checked'])){
 			print_r($_POST['checked']);
 		}
-		// $counter = 0;
-        	// foreach($checkbox as $node){
-		// 	 echo $counter;
-		// 	 echo $checkbox->nodeValue, PHP_EOL;
-		// 	 $counter++;
-		// }
 		for($i = 0; $i < $checkbox->length; $i++){
-			//echo $checkbox->item($i)->nodeValue . "\n" . $i ."\n";
 		}
-        //echo count($checkbox);
         echo 'clicked';
         $an = $_POST['account_name'];
         if (isset($_POST['checked'])){
@@ -160,10 +154,6 @@
             echo $an;
         }
         print_r($_POST);
-        //query to enter the actions mapped to each and every client
-        //$sql = "INSERT INTO client_actions ('client_name', 'action_obj')
-        //VALUES ('$client_name', '$action_obj')";
-        //$an = $['account_name'];
     }
 ?>
 </body>

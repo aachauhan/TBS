@@ -2,30 +2,73 @@
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
+  
 <?php
-	echo "<form action='#' method='post'>";
-	echo "<label for='client_name'> Client Name </label><input type='text' id='c_name' name='client_name' />";
-    echo "<label for='actn_grp'> Action Group </label><input type='text' id='actn_group' name='actn_grp' />";
-    echo "<label for='actn_role'> Action Role </label><input type='text' id='action_role' name='actn_role' />";
-    echo "<label for='actn_status'> Action Status </label><input type='text' id='action_status' name='actn_status' />";
-    echo "<label for='date_start'> Date </label><input type='date' id='date_strt' name='date_start' /><br>";
-    echo "<input type='submit' value='Submit' />";
-    echo "</form>";
-    echo "<hr/>"
-    echo "<hr/>";
-?>
-<?php
-    //database info
-    $servername = "localhost";
-    $username = "amasyn_local";
-    $password = "Cogimetrics100";
-    $dbname = "amasyn_actions_db";
+
+	$servername = "localhost";
+	$username = "amasyn_local";
+	$password = "Cogimetrics100";
+	$dbname = "amasyn_actions_db";
 
     $con = mysqli_connect($servername, $username, $password, $dbname);
 
     if(mysqli_connect_errno()){
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
+    
+   try{
+   	$db_con = new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
+   	$db_con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   	
+   	$sql_filter = $db_con->prepare("SELECT * FROM client_actions");
+   	$sql_filter->execute();
+   	$filter_query_result = $sql_filter->fetchAll(PDO::FETCH_ASSOC);
+   	$filter_json = json_encode($filter_query_result);
+   	$filter_json_array = json_decode($filter_json, true);
+   } catch (PDOException $e){
+   	die($e->getMessage());
+   }
+	echo "<div id='form_container'>";
+	echo "<a href='http://marvelousglass.com/actions/inc/action-dashboard.php'> Main Dashboard </a>";
+	echo "<a href='http://marvelousglass.com/actions/inc/add-client.php/'> Add Client </a>";
+	echo "<a href='http://marvelousglass.com/actions/inc/add-action.php'> Add Action </a>";
+	echo "<a href='http://marvelousglass.com/actions/inc/client-action-render.php'> Dashboard 2.0 </a>";
+	echo "<hr />";
+	//print_r($filter_json);
+	echo "<form action='/actions/inc/queried_ca_data.php' method='post'>";
+	echo "<label for='client_name'> Client Name </label><select name='client_name'>";
+	echo "<option value=''></option>";
+	for($i = 0; $i < count(json_decode($filter_json)); $i++){
+		echo "<option value='".$filter_json_array[$i]["client_name"]. "'>" .$filter_json_array[$i]["client_name"]. "</option>";
+	}
+	echo "</select>";
+    	echo "<label for='actn_grp'> Action Group </label><select name='actn_grp'>";
+   	echo "<option value=''></option>";
+    	for($i = 0; $i < count(json_decode($filter_json)); $i++){
+		echo "<option value='".$filter_json_array[$i]["action_group"]. "'>" .$filter_json_array[$i]["action_group"]. "</option>";
+	}
+	echo "</select>";
+    	echo "<label for='actn_role'> Action Role </label><select name='actn_role'/>";
+    	echo "<option value=''></option>";
+    	for($i = 0; $i < count(json_decode($filter_json)); $i++){
+		echo "<option value='".$filter_json_array[$i]["role"]. "'>" .$filter_json_array[$i]["role"]. "</option>";
+	}
+	echo "</select>";
+    	echo "<label for='actn_status'> Action Status </label><select name='actn_status' />";
+    	echo "<option value=''></option>";
+    	for($i = 0; $i < count(json_decode($filter_json)); $i++){
+		echo "<option value='".$filter_json_array[$i]["status"]. "'>" .$filter_json_array[$i]["status"]. "</option>";
+	}
+	echo "</select>";
+    	echo "<label for='date_start'> Date </label><input type='date' id='date_strt' name='date_start' />";
+    	echo "<label for='condition'> Condition:</label><input type='radio' value='and' name='condition_radio' /> And <input type='radio' value='or' name='condition_radio' checked /> Or<br>";
+        echo "<input type='submit' name='submit' value='Submit' />";
+    	echo "</form>";
+    	echo "</div>";
+    	echo "<hr/>"
+?>
+<?php
+    //database info
 
     try{
         
@@ -34,12 +77,6 @@
         $database_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 	//https://stackoverflow.com/questions/36596318/select-onchange-update-php-value
-        //Migrate the following logic to another page
-        //the 80 - 20 rule - pareto rule
-        //code to bring the data from clients_actions table and show it here
-        //working on persisting the data to the database
-        //bring the logic of multiple checkbox id's in an array to this page
-        //workers for the queen bee
                     $sql_clientactions = $database_connection->prepare("SELECT * FROM client_actions");
                     $sql_clientactions->execute();
                     $sql_result_client_actions = $sql_clientactions->fetchAll(PDO::FETCH_ASSOC);
@@ -72,7 +109,7 @@
                         echo "<td>". $client_json_array[$count]["action_group"] ."</td>";
                         echo "<td>". $client_json_array[$count]["role"] ."</td>";
                         echo "<td><select name='status_val[]' id='".$client_json_array[$count]["id"]. "'>". "<option value='--'>".$client_json_array[$count]["status"]."</option><option value='working'>working</option>" . "<option value='completed'>completed</option>" . "</select></td>";
-                        echo "<td><input id='". $client_json_array[$count]["id"] ."' type='text' name='comment' value='".$client_json_array[$count]["comment"]."' /></td>";
+                        echo "<td><textarea id='". $client_json_array[$count]["id"] ."' type='text' name='comment'>".$client_json_array[$count]["comment"]."</textarea></td>";
                         echo "</tr>";
                     }
                     echo "</table>";
@@ -84,7 +121,14 @@
     }
 
 ?>
+<button onclick="Export()">Export to CSV</button>
 <script>
+	function Export(){
+		var conf = confirm("Export this table to CSV?");
+		if(conf == true){
+			window.open("/actions/inc/export.php", '_blank');
+		}
+	}
     $("[name='status_val[]']").on('change', function() {
     	var pie_status = $(this).val();
     	var pie_id = $(this).attr("id");
@@ -104,8 +148,6 @@
     $("[name='comment']").on('change', function(){
         var comment_text = $(this).val();
         var p_id = $(this).attr("id");
-        //console.log(comment_text);
-        //console.log(p_id);
         $.ajax({
             type: "POST",
             url: "client_status_update.php",
