@@ -46,49 +46,19 @@
 		$database_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		
 		if($cond_query == 'and'){
-			if(isset($_POST['client_name'])){
-                //if any of the for input element from last page. i.e. CN, AG, AR, AS - How different ways this can be formed
-                //1 - (CN and AG), or (CN and AR), or (CN and AS)
-                //2 - (AG and AR), or (AG and AS), or *(AG and CN)*
-                //3 - (AR and AS), or *(AR and CN)*, or *(AR and AG)*
-                //4 - *(AS and AR)*, or *(AS and AG)*, or *(AS and AR)*
-
-                //deducted queries example
-                //1 - (CN and AG), or (CN and AR), or (CN and AS)
-                //2 - (AG and AR), or (AG and AS)
-                //3 - (AR and AS)
-                //first get the three of the CN values
-                $query_filtered = $database_connection->prepare("SELECT * from client_actions WHERE (client_name = '$cname' AND action_group = '$a_group') OR (client_name = '$cname' AND role = '$a_role') OR (client_name = '$cname' AND status = '$a_status')");
-                $query_filtered->execute();
-                $query_filtered_results = $query_filtered->fetchAll(PDO::FETCH_ASSOC);
-                $query_filtered_results_json = json_encode($query_filtered_results);
-                $query_filtered_json_array = json_decode($query_filtered_results_json, true);
-            }
-            else if(isset($_POST['actn_grp'])){
-                echo ('HERE');
-                //2 - (AG and AR), or (AG and AS)
-                $query_filtered = $database_connection->prepare("SELECT * from client_actions WHERE (action_group = '$a_group' AND role = '$a_role') OR (action_group = '$a_group' AND status = '$a_status')");
-                $query_filtered->execute();
-                $query_filtered_results = $query_filtered->fetchAll(PDO::FETCH_ASSOC);
-                $query_filtered_results_json = json_encode($query_filtered_results);
-                $query_filtered_json_array = json_decode($query_filtered_results_json, true);
-            }
-            else{
-                //3 - (AR and AS)
-                $query_filtered = $database_connection->prepare("SELECT * from client_actions WHERE (role = '$a_role' AND status = '$a_status')");
-                $query_filtered->execute();
-                $query_filtered_results = $query_filtered->fetchAll(PDO::FETCH_ASSOC);
-                $query_filtered_results_json = json_encode($query_filtered_results);
-                $query_filtered_json_array = json_decode($query_filtered_results_json, true);
-            }
+            //OK! so just thought of this on the spot, but what if I incorporate other two queries from
+            //else-if and if part of the queries in one single query that is sitting in one condition, that is if and is clicked
+            //this can work, and there is only way to find out.
+            //$query = "SELECT * FROM client_actions WHERE (client_name = '$cname' AND action_group = '$a_group') OR (client_name = '$cname' AND role = '$a_role') OR (client_name = '$cname' AND status = '$a_status') OR (action_group = '$a_group' AND role = '$a_role') OR (action_group = '$a_group' AND status = '$a_status') OR (role = '$a_role' AND status = '$a_status')";*/
             
             //this was my initial approach but didn't work :(
-			/*$query_filtered = $database_connection->prepare("SELECT * FROM client_actions WHERE client_name='$cname' AND action_group='$a_group' AND role='$a_role' AND status='$a_status' AND start_date='$d_start'");
+            //(CN and AG) or (CN and AR) or (CN and AS) or (AG and AR) or (AG and AS) or (AR and AS)
+			$query_filtered = $database_connection->prepare("SELECT * FROM client_actions WHERE (client_name = '$cname' AND action_group = '$a_group') OR (client_name = '$cname' AND role = '$a_role') OR (client_name = '$cname' AND status = '$a_status') OR (action_group = '$a_group' AND role = '$a_role') OR (action_group = '$a_group' AND status = '$a_status') OR (role = '$a_role' AND status = '$a_status')");
 			$query_filtered->execute();
 			$query_filtered_results = $query_filtered->fetchAll(PDO::FETCH_ASSOC);
             $query_filtered_results_json = json_encode($query_filtered_results);
             //print_r($query_filtered_results_json);
-            $query_filtered_json_array = json_decode($query_filtered_results_json, true);*/
+            $query_filtered_json_array = json_decode($query_filtered_results_json, true);
 			
 		} else {
 			$query_filtered = $database_connection->prepare("SELECT * FROM client_actions WHERE client_name='$cname' OR action_group='$a_group' OR role='$a_role' OR status='$a_status' OR start_date='$d_start'");
