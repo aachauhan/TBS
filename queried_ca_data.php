@@ -4,6 +4,7 @@
   crossorigin="anonymous"></script>
 
   <?php
+  require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/header.php';
   //database info
     $servername = "localhost";
     $username = "amasyn_local";
@@ -16,7 +17,8 @@
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
 ?>
-<?php	        
+<?php
+    require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/navigation.php';
 	//incorporate logic when AND is selected
 	if(isset($_POST['submit'])){
 		//For testing purpose
@@ -29,7 +31,7 @@
 		echo ($_POST['actn_status']);
 		echo "<br/>";
 		echo ($_POST['date_start']);
-        echo "<br/>";
+	        echo "<br/>";
         //till here
 
         //variable initialization to be used in the query

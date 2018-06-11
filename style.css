@@ -1,0 +1,13 @@
+.menu-nav{
+	width: 20%;
+    background: #2e32e2;
+    padding: 10px 10px 10px 10px;
+    text-decoration: none;
+    color: white;    
+    margin-left: 5px;
+
+    }
+    .nav-wrapper {
+    display: block;
+    margin-bottom: 15px;
+}

@@ -29,10 +29,12 @@
             $acc_strtdate = $_POST['acc_strtdate'];
             $sales_associate = $_POST['sales_associate'];
             $acc_advocate = $_POST['acc_advocate'];
+            $acc_comment  = $_POST['acc_comment'];
             $bill_amt = $_POST['bill_amt'];
+            $account_status = "ACTIVE";
             
-            $sql = "INSERT INTO clients (account_name, contact_email, contact_phone, acc_strtdate, sales_associate, acc_advocate, bill_amt)
-            VALUES ('$account_name', '$contact_email', '$contact_phone', '$acc_strtdate', '$sales_associate', '$acc_advocate', '$bill_amt')";
+            $sql = "INSERT INTO clients (account_name, contact_email, contact_phone, acc_strtdate, account_status, comment, sales_associate, acc_advocate, bill_amt)
+            VALUES ('$account_name', '$contact_email', '$contact_phone', '$acc_strtdate','$account_status', '$acc_comment', '$sales_associate', '$acc_advocate', '$bill_amt')";
 
             if($database_connection->exec($sql)){
                 echo "NEW RECORD ADDED";
@@ -40,8 +42,6 @@
             else {
                 echo "unsuccessful";
             }
-            
-            
         }
         }catch(PDOException $z){
 
@@ -57,6 +57,10 @@
   <title>Add Client</title>
 </head>
         <body>
+            <!-- Menu Section -->
+        <?php
+        require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/navigation.php';
+        ?>
             <form id="form-create_client" class="form_insert"  method="post" action="<?php htmlentities($_SERVER['PHP_SELF']); ?>">
                     <div class="form_description">
                 <h2>Add Client Form</h2>
@@ -98,7 +102,14 @@
             <div>
                 <input id="element_8" name="acc_advocate" class="element text medium" type="text" maxlength="255" value=""/> 
             </div> 
-            </li>           <li id="li_9" >
+            </li>
+            <li  >
+            <label class="description" for="acc_comment">Enter Comments:</label>
+            <div>
+                <textarea id="element_4" name="acc_comment" type="text" maxlength="255"></textarea>
+            </div> 
+            </li>
+	    <li id="li_9" >
             <label class="description" for="bill_amt">Enter Billing Amount</label>
             <div>
                 <input id="element_8" name="bill_amt" class="element text medium" type="text" maxlength="255" value=""/> 
@@ -110,11 +121,5 @@
             </li>
                 </ul>
 </form>
-		        <hr />
-                <a href="http://marvelousglass.com/actions/inc/action-dashboard.php">Main Dashboard</a>
-		        <a href="http://marvelousglass.com/actions/inc/add-client.php/">Add Client</a>
-		        <a href="http://marvelousglass.com/actions/inc/add-action.php">Add Action</a>
-		        <a href="http://marvelousglass.com/actions/inc/client-action-render.php">Dashboard 2.0</a>
-        
 </body>
 </html>
