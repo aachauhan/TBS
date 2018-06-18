@@ -1,83 +1,134 @@
 $(document).ready(function () {
 
-    d3.selectAll(".cls-1")
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut);
+    var clickFlag = true;
 
-    function handleMouseOver(){
-        d3.selectAll(".cls-1").style({
-            fill: "orange",
-        });
-    }
-
-    function handleMouseOut(){
-        d3.select(".cls-1").style({
-            fill: "black",
-        });
-    }
+    //tooltip for active pods style
+    var tooltip_1 = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "999")
+    .style("visibility", "hidden")
+    .style("width", "150px")
+    .style("height", "100px")
+    .style("background", "#000")
+    .style("top", "15vh")
+    .style("left", "10%")
+    .style("border", "0.5px solid #efefef")
+    .style("padding-left", "10px");
     
-    d3.selectAll(".cls-1").on('mouseover', function() {
-        d3.select(this).style("fill", "blue")
+    //tooltip for inactive pods style
+    var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "999")
+    .style("visibility", "hidden")
+    .style("width", "150px")
+    .style("height", "100px")
+    .style("background", "#828282")
+    .style("top", "15vh")
+    .style("left", "10%")
+    .style("border", "0.5px solid #efefef")
+    .style("padding-left", "10px");
+
+    //logic for the inactive pods
+    d3.selectAll(".cls-1").on('mouseover', function(d) {
+        console.log("MouseOver");
+        tooltip.text("POD information coming soon!");   //text inside the div ~ tooltip
+        tooltip.style("color", "white");    //style for the tooltip
+        d3.select(this).style("fill", "#22b0ed");   //style for the pod
+        return tooltip.style("visibility", "visible");  //shows the information box
     })
     .on('mouseout', function(){
-        d3.select(this).style("fill", "black")
+        console.log("MouseOut");
+        d3.select(this).style("fill", "#efefef");
+        return tooltip.style("visibility","hidden");
+        //kinda works but need refinement
+        /*if(clickFlag){
+            console.log("Inside if");
+            tooltip.style("visibility", "visible");  //shows the information box
+        }else{
+            console.log("Inside else");
+            tooltip.style("visibility", "hidden");  //hides the information box
+        }*/
     })
+    .on('click', function(d){
+        console.log("clicked");
+        if(clickFlag){
+            console.log("Inside if");
+            tooltip.style("visibility", "visible");  //shows the information box
+        }else{
+            console.log("Inside else");
+            tooltip.style("visibility", "hidden");  //hides the information box
+        }
+        return clickFlag = !clickFlag;
+    });
 
-    d3.selectAll(".cls-1").style("fill", "blue");
+    //logic for the active pods - content
+    d3.selectAll(".content").on('mouseover', function(d) {
+        tooltip_1.text("Content POD");   //text inside the div ~ tooltip
+        tooltip_1.style("color", "white");    //style for the tooltip
+        d3.select(this).style("fill", "22b0ed");   //style for the pod
+        return tooltip_1.style("visibility", "visible");  //shows the information bo
+    })
+    .on('mouseout', function(){
+        d3.select(this).style("fill", "steelblue");
+        return tooltip_1.style("visibility", "hidden");
+    });
+
+    //logic for the active pods - web
+    d3.selectAll(".web").on('mouseover', function(d) {
+        tooltip_1.text("Web POD");   //text inside the div ~ tooltip
+        tooltip_1.style("color", "white");    //style for the tooltip
+        d3.select(this).style("fill", "#22b0ed");   //style for the pod
+        return tooltip_1.style("visibility", "visible");  //shows the information bo
+    })
+    .on('mouseout', function(){
+        d3.select(this).style("fill", "#bdb530");
+        return tooltip_1.style("visibility", "hidden");
+    });
+
+    //logic for the active pods - design
+    d3.selectAll(".design").on('mouseover', function(d) {
+        tooltip_1.text("Design POD");   //text inside the div ~ tooltip
+        tooltip_1.style("color", "white");    //style for the tooltip
+        d3.select(this).style("fill", "#22b0ed");   //style for the pod
+        return tooltip_1.style("visibility", "visible");  //shows the information bo
+    })
+    .on('mouseout', function(){
+        d3.select(this).style("fill", "red");
+        return tooltip_1.style("visibility", "hidden");
+    });
+
+    //logic for the active pods - strategy
+    d3.selectAll(".strategy").on('mouseover', function(d) {
+        tooltip_1.text("Strategy POD");   //text inside the div ~ tooltip
+        tooltip_1.style("color", "white");    //style for the tooltip
+        d3.select(this).style("fill", "#22b0ed");   //style for the pod
+        return tooltip_1.style("visibility", "visible");  //shows the information bo
+    })
+    .on('mouseout', function(){
+        d3.select(this).style("fill", "#2a5365");
+        return tooltip_1.style("visibility", "hidden");
+    });
+
+    //logic for the active pods - seo
+    d3.selectAll(".seo").on('mouseover', function(d) {
+        tooltip_1.text("SEO POD");   //text inside the div ~ tooltip
+        tooltip_1.style("color", "white");    //style for the tooltip
+        d3.select(this).style("fill", "#22b0ed");   //style for the pod
+        return tooltip_1.style("visibility", "visible");  //shows the information bo
+    })
+    .on('mouseout', function(){
+        d3.select(this).style("fill", "gray");
+        return tooltip_1.style("visibility", "hidden");
+    });
+
+    d3.selectAll(".cls-1").style("fill", "#efefef");
+    d3.selectAll(".web").style("fill", "#bdb530");
+    d3.selectAll(".content").style("fill", "steelblue");
+    d3.selectAll(".strategy").style("fill", "#2a5365");
+    d3.selectAll(".seo").style("fill", "gray");
+    d3.selectAll(".design").style("fill", "red");
   
-    var moveLeft = 0;
-    var moveDown = 0;
-    //selector -
-    //hovering logic
-    $('.cls-1').hover(function (e) {
-        
-        var target = '#' + ($(this).attr('data-popbox'));
-        
-        $(target).show();
-        moveLeft = $(this).outerWidth();
-        moveDown = ($(target).outerHeight() / 2);
-    }, function () {
-        var target = '#' + ($(this).attr('data-popbox'));
-        if (!($(".cls-1").hasClass("show"))) {
-            $(target).hide();
-        }
-    });
-    //mousemove logic
-    //slector - 
-    $('.cls-1').mousemove(function (e) {
-        var target = '#' + ($(this).attr('data-popbox'));
-    
-        leftD = e.pageX + parseInt(moveLeft);
-        maxRight = leftD + $(target).outerWidth();
-        windowLeft = $(window).width() - 40;
-        windowRight = 0;
-        maxLeft = e.pageX - (parseInt(moveLeft) + $(target).outerWidth() + 20);
-    
-        if (maxRight > windowLeft && maxLeft > windowRight) {
-            leftD = maxLeft;
-        }
-    
-        topD = e.pageY - parseInt(moveDown);
-        maxBottom = parseInt(e.pageY + parseInt(moveDown) + 20);
-        windowBottom = parseInt(parseInt($(document).scrollTop()) + parseInt($(window).height()));
-        maxTop = topD;
-        windowTop = parseInt($(document).scrollTop());
-        if (maxBottom > windowBottom) {
-            topD = windowBottom - $(target).outerHeight() - 20;
-        } else if (maxTop < windowTop) {
-            topD = windowTop + 20;
-        }
-    
-        $(target).css('top', 10).css('left', 30);
-    });
 
-    //click logic
-    //selector - 
-    $('.cls-1').click(function (e) {
-        var target = '#' + ($(this).attr('data-popbox'));
-        if (!($(this).hasClass("show"))) {
-            $(target).show();
-        }
-        $(this).toggleClass("show");
-    });
     });
