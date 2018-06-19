@@ -11,7 +11,7 @@ $(document).ready(function () {
     .style("width", "150px")
     .style("height", "auto")
     .style("background", "#000")
-    .style("top", "15vh")
+    .style("top", "25vh")
     .style("left", "10%")
     .style("border", "0.5px solid #efefef")
     .style("padding-left", "10px")
@@ -26,7 +26,7 @@ $(document).ready(function () {
     .style("width", "150px")
     .style("height", "auto")
     .style("background", "#828282")
-    .style("top", "15vh")
+    .style("top", "25vh")
     .style("left", "10%")
     .style("border", "0.5px solid #efefef")
     .style("padding-left", "10px")
@@ -39,11 +39,13 @@ $(document).ready(function () {
         tooltip.html("<p>Inactive POD <br/> More Information coming soon</p><hr /><a href='#' style='color:white;'>Read More...</a>");     //the html
         tooltip.style("color", "white");    //style for the tooltip
         d3.select(this).style("fill", "#22b0ed");   //style for the pod
+        d3.select(this).style("stroke", "#22b0ed");
         return tooltip.style("visibility", "visible");  //shows the information box
     })
     .on('mouseout', function(){
         console.log("MouseOut");
         d3.select(this).style("fill", "#efefef");
+        d3.select(this).style("stroke", "#efefef");
         return tooltip.style("visibility","hidden");
         //kinda works but need refinement
         /*if(clickFlag){
@@ -142,6 +144,7 @@ $(document).ready(function () {
     });
 
     d3.selectAll(".cls-1").style("fill", "#efefef");
+    d3.selectAll(".cls-1").style("stroke", "#efefef");
     d3.selectAll(".web").style("fill", "#bdb530");
     d3.selectAll(".web").style("stroke", "#bdb530");
     d3.selectAll(".content").style("fill", "steelblue");
