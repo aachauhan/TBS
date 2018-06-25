@@ -11,12 +11,13 @@ $(document).ready(function () {
     .style("width", "150px")
     .style("height", "auto")
     .style("background", "#000")
-    .style("top", "25vh")
-    .style("left", "10%")
+    .style("top", "50vh")
+    .style("left", "13%")
     .style("border", "0.5px solid #efefef")
     .style("padding-left", "10px")
     .style("padding-right", "10px")
     .classed("handle", true);
+    
     
     //tooltip for inactive pods style
     var tooltip = d3.select("body")
@@ -27,12 +28,13 @@ $(document).ready(function () {
     .style("width", "150px")
     .style("height", "auto")
     .style("background", "#828282")
-    .style("top", "25vh")
-    .style("left", "10%")
+    .style("top", "50vh")
+    .style("left", "13%")
     .style("border", "0.5px solid #efefef")
     .style("padding-left", "10px")
     .style("padding-right", "10px")
     .classed("handle_1", true);
+
 
     //logic for the inactive pods
     d3.selectAll(".cls-1").on('mouseover', function(d) {
@@ -63,31 +65,22 @@ $(document).ready(function () {
             });
         }
     });
-    
-    d3.selectAll(".close-button").on('click', function(){
-        console.log("clicked");
-        d3.selectAll(".handle").style("visibility", "hidden");
-        d3.selectAll(".handle_1").style("visibility", "hidden");
-    })
-    .on("mouseover", function(){
-        console.log("*");
-    });
 
     //logic for the active pods - content
-    d3.selectAll(".content").on('mouseover', function(d) {
+    d3.selectAll(".content").on('mouseover', function(d) { //adding mouseover event
         tooltip_activePod.text("Content POD");   //text inside the div ~ tooltip
         tooltip_activePod.html("<p>Content POD<br/>Status: Active</p><span class='close-button'>X</span><hr /><a href='#' style='color:white;'>Read More...</a>");     //the html
         tooltip_activePod.style("color", "white");    //style for the tooltip
         d3.select(this).style("fill", "#22b0ed");   //style for the pod
         d3.select(this).style("stroke", "#22b0ed");
-        return tooltip_activePod.style("visibility", "visible");  //shows the information bo
+        return tooltip_activePod.style("visibility", "visible");  //shows the information box
     })
-    .on('mouseout', function(){
+    .on('mouseout', function(){ //adding mouseout event
         d3.select(this).style("fill", "steelblue");
         d3.select(this).style("stroke", "steelblue");
         return tooltip_activePod.style("visibility", "hidden");
     })
-    .on('click', function(d){
+    .on('click', function(d){   //adding mouse click event
         var cl_handle = d3.selectAll(".handle");
         cl_handle.classed("show", !cl_handle.classed("show"));
         if(d3.selectAll(".handle").classed("show")){
@@ -225,9 +218,5 @@ $(document).ready(function () {
     d3.selectAll(".seo").style("stroke", "gray");
     d3.selectAll(".design").style("fill", "red");
     d3.selectAll(".design").style("stroke", "red");
-
-    //logic for the close-button
-    
-  
 
     });
