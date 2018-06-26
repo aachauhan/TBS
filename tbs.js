@@ -35,7 +35,7 @@ $(document).ready(function () {
     .style("padding-right", "10px")
     .classed("handle_1", true);
 
-
+    
     //logic for the inactive pods
     d3.selectAll(".cls-1").on('mouseover', function(d) {
         console.log("MouseOver");
@@ -67,20 +67,20 @@ $(document).ready(function () {
     });
 
     //logic for the active pods - content
-    d3.selectAll(".content").on('mouseover', function(d) { //adding mouseover event
+    d3.selectAll(".content").on('mouseover', function(d) {
         tooltip_activePod.text("Content POD");   //text inside the div ~ tooltip
         tooltip_activePod.html("<p>Content POD<br/>Status: Active</p><span class='close-button'>X</span><hr /><a href='#' style='color:white;'>Read More...</a>");     //the html
         tooltip_activePod.style("color", "white");    //style for the tooltip
         d3.select(this).style("fill", "#22b0ed");   //style for the pod
         d3.select(this).style("stroke", "#22b0ed");
-        return tooltip_activePod.style("visibility", "visible");  //shows the information box
+        return tooltip_activePod.style("visibility", "visible");  //shows the information bo
     })
-    .on('mouseout', function(){ //adding mouseout event
+    .on('mouseout', function(){
         d3.select(this).style("fill", "steelblue");
         d3.select(this).style("stroke", "steelblue");
         return tooltip_activePod.style("visibility", "hidden");
     })
-    .on('click', function(d){   //adding mouse click event
+    .on('click', function(d){
         var cl_handle = d3.selectAll(".handle");
         cl_handle.classed("show", !cl_handle.classed("show"));
         if(d3.selectAll(".handle").classed("show")){
@@ -218,5 +218,32 @@ $(document).ready(function () {
     d3.selectAll(".seo").style("stroke", "gray");
     d3.selectAll(".design").style("fill", "red");
     d3.selectAll(".design").style("stroke", "red");
+
+    d3.select("body").on("keydown", function(){
+        console.log("keycode: " + d3.event.keyCode + " applied");
+        if(d3.event.keyCode == 27){
+            console.log("here");
+            var class_handle = d3.selectAll(".handle_1");
+            var class_handle_1 = d3.selectAll(".handle");
+            class_handle_1.classed("show", false);
+            class_handle_1.style("visibility", "hidden")
+            class_handle.classed("show", false);
+            class_handle.style("visibility", "hidden");
+
+            //test
+            d3.selectAll(".cls-1").style("fill", "#efefef");
+            d3.selectAll(".cls-1").style("stroke", "#efefef");
+            d3.selectAll(".web").style("fill", "#bdb530");
+            d3.selectAll(".web").style("stroke", "#bdb530");
+            d3.selectAll(".content").style("fill", "steelblue");
+            d3.selectAll(".content").style("stroke", "steelblue");
+            d3.selectAll(".strategy").style("fill", "#2a5365");
+            d3.selectAll(".strategy").style("stroke", "#2a5365");
+            d3.selectAll(".seo").style("fill", "gray");
+            d3.selectAll(".seo").style("stroke", "gray");
+            d3.selectAll(".design").style("fill", "red");
+            d3.selectAll(".design").style("stroke", "red");
+        }
+    });
 
     });
