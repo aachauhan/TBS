@@ -206,6 +206,7 @@ $(document).ready(function () {
         }
     });
 
+
     d3.selectAll(".cls-1").style("fill", "#efefef");
     d3.selectAll(".cls-1").style("stroke", "#efefef");
     d3.selectAll(".web").style("fill", "#bdb530");
