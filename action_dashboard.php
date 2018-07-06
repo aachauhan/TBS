@@ -1,6 +1,6 @@
 <?php
 
-    //brings the HTML structure of the page
+    //header.php contains the html structure for the page
     require '/home4/amasyn/public_html/marvelousglass.com/actions/inc/header.php';
     
     //database info
@@ -45,13 +45,14 @@
         <h2>Action Dashboard</h2>
         <p>On this page, map the clients with actions</p>
         
+        <!--form to submit the mapping into table-->
         <form id="form-create_client" class="form_insert"  method="post" action="/actions/inc/filtered-action-dashboard.php">
         <label class="description" for="client_name">Enter Client Name : </label>
         <!--use of JS below to activate checkboxes-->
         <select name="account_name" id="client_dd" onchange="render_checkboxes()">
             <?php
                 //empty array
-                $json_trap = []; 
+                $json_trap = []; //keeps the array
                 $sql = mysqli_query($con, "SELECT * FROM clients");
                 echo "<option value='default'>--</option>";
                 while ($row = $sql->fetch_assoc()){
@@ -65,6 +66,7 @@
                 print_r($converted_json);    
             ?>
         </select>
+        <!-- the Select tag above is showing the dropdown options wtih clients -->
     <?php
 		// bring actions from database
         $query_1 = $database_connection->prepare("SELECT * FROM actions");
