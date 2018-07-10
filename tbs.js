@@ -245,6 +245,27 @@ $(document).ready(function () {
             d3.selectAll(".design").style("fill", "red");
             d3.selectAll(".design").style("stroke", "red");
         }
+    })
+    .on('click', function(d){
+        console.log("clicked->body");
+        var class_handle = d3.selectAll(".handle_1");
+        var class_handle_1 = d3.selectAll(".handle");
+        class_handle_1.classed("show", false);
+        class_handle_1.style("visibility", "hidden")
+        class_handle.classed("show", false);
+        class_handle.style("visibility", "hidden");
+        d3.selectAll(".cls-1").style("fill", "#efefef");
+        d3.selectAll(".cls-1").style("stroke", "#efefef");
+        d3.selectAll(".web").style("fill", "#bdb530");
+        d3.selectAll(".web").style("stroke", "#bdb530");
+        d3.selectAll(".content").style("fill", "steelblue");
+        d3.selectAll(".content").style("stroke", "steelblue");
+        d3.selectAll(".strategy").style("fill", "#2a5365");
+        d3.selectAll(".strategy").style("stroke", "#2a5365");
+        d3.selectAll(".seo").style("fill", "gray");
+        d3.selectAll(".seo").style("stroke", "gray");
+        d3.selectAll(".design").style("fill", "red");
+        d3.selectAll(".design").style("stroke", "red");
     });
 
     });
