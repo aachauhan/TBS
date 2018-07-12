@@ -34,7 +34,6 @@ $(document).ready(function () {
     .style("padding-left", "10px")
     .style("padding-right", "10px")
     .classed("handle_1", true);
-
     
     //logic for the inactive pods
     d3.selectAll(".cls-1").on('mouseover', function(d) {
@@ -211,7 +210,6 @@ $(document).ready(function () {
         //so theoretically this should work but it is not
         //even the console.log command does not work on click
         console.log("click->cb");
-        
         d3.selectAll(".close-button").classed("new", true);
         
     });
@@ -256,4 +254,19 @@ $(document).ready(function () {
         }
     });
 
+    //this is a logic that I am trying to work with
+    //It does have some flaws. Whenever I even click in one of the pod the click is also being registered for the click event below. Which shouldn't be happening
+    d3.selectAll(".et_pb_section_0").on('click', function(d){
+        /*console.log("clicked->body");
+        var class_handle = d3.selectAll(".handle_1");
+        var class_handle_1 = d3.selectAll(".handle");
+        class_handle_1.classed("show", false);
+        class_handle_1.style("visibility", "hidden")
+        class_handle.classed("show", false);
+        class_handle.style("visibility", "hidden");*/
+
+        //trying something new
+        
     });
+
+});
